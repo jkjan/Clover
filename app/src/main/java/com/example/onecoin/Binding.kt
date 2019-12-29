@@ -1,9 +1,9 @@
-package com.example.myapplication
+package com.example.onecoin
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.adapter.MenuButtonsAdapter
+import com.example.onecoin.adapter.MenuButtonsAdapter
 
 @BindingAdapter("android:setVAdapter")
 fun RecyclerView.bindVRC (adapter : RecyclerView.Adapter<MenuButtonsAdapter.Holder>) {

@@ -1,14 +1,14 @@
-package com.example.myapplication.adapter
+package com.example.onecoin.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.databinding.ItemMenuBinding
-import com.example.myapplication.viewmodel.MainActivityViewModel
+import com.example.onecoin.databinding.ItemMenuBinding
+import com.example.onecoin.viewmodel.MainViewModel
 
-class MenuButtonsAdapter (@LayoutRes val layoutID : Int, private val mMainActivityViewModel: MainActivityViewModel) : RecyclerView.Adapter<MenuButtonsAdapter.Holder>() {
+class MenuButtonsAdapter (@LayoutRes val layoutID : Int, private val mMainViewModel: MainViewModel) : RecyclerView.Adapter<MenuButtonsAdapter.Holder>() {
     val menuList = arrayListOf(
         "회원정보",
         "설정",
@@ -30,7 +30,7 @@ class MenuButtonsAdapter (@LayoutRes val layoutID : Int, private val mMainActivi
     override fun getItemCount() : Int = menuList.size
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(mMainActivityViewModel, position)
+        holder.bind(mMainViewModel, position)
     }
 
     override fun getItemViewType(position: Int): Int = getLayoutIdForPosition()
@@ -39,8 +39,8 @@ class MenuButtonsAdapter (@LayoutRes val layoutID : Int, private val mMainActivi
 
     inner class Holder(private val binding: ItemMenuBinding) :
         RecyclerView.ViewHolder(binding.itemView) {
-        fun bind(mMainActivityViewModel: MainActivityViewModel, position: Int) {
-            binding.mavm = mMainActivityViewModel
+        fun bind(mMainViewModel: MainViewModel, position: Int) {
+            binding.mavm = mMainViewModel
             binding.position = position
             binding.executePendingBindings()
         }

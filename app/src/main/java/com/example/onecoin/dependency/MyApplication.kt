@@ -1,4 +1,4 @@
-package com.example.myapplication.dependency
+package com.example.onecoin.dependency
 
 import android.app.Application
 import org.koin.android.ext.koin.androidContext

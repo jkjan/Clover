@@ -1,4 +1,4 @@
-package com.example.myapplication.activity
+package com.example.onecoin.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

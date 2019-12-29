@@ -2,10 +2,10 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <import type="com.example.myapplication.viewmodel.MainActivityViewModel"/>
+        <import type="com.example.onecoin.viewmodel.MainViewModel"/>
         <variable
             name="MAVM"
-            type="MainActivityViewModel"/>
+            type="MainViewModel"/>
         <variable
             name="position"
             type="Integer" />
