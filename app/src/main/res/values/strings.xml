@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">My Application</string>
+
+    <string name="default_notification_channel_id">Channel ID</string>
+
+    <string name="default_notification_channel_name" translatable="true">Test</string>
+
+    <string name="msg_token_fmt">Hello</string>
 </resources>
+

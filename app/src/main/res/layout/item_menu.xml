@@ -2,7 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <import type="com.example.onecoin.viewmodel.MainViewModel"/>
+        <import type="com.jun.clover.viewmodel.MainViewModel"/>
         <variable
             name="MAVM"
             type="MainViewModel"/>

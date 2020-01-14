@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "433532205408",
+    "firebase_url": "https://clover-83020.firebaseio.com",
+    "project_id": "clover-83020",
+    "storage_bucket": "clover-83020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433532205408:android:35c78799e4e0f1d135c605",
+        "android_client_info": {
+          "package_name": "com.jun.clover"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "433532205408-ea4cupiljbdummq0c3ppe86k5itsig0b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jun.clover",
+            "certificate_hash": "3cee748e8a78456c1298ddec70ba8a22b57a68a4"
+          }
+        },
+        {
+          "client_id": "433532205408-lhjv9ff0isc3i79b50oon1srcabhelv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKRAFL2pgrGIFhkgxIXZl1qsKx_ZlVqdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "433532205408-lhjv9ff0isc3i79b50oon1srcabhelv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
