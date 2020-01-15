@@ -31,7 +31,6 @@
                     android:layout_height="wrap_content"
                     android:text="@{Integer.toString(mVM.today.prizeClover)}"
                     android:textSize="@{mVM.setTextSize(mVM.user.point)}" />
-
                 <View
                     android:layout_width="3dp"
                     android:layout_height="wrap_content"
@@ -43,7 +42,6 @@
                     android:layout_height="wrap_content"
                     android:text="@{Integer.toString(mVM.user.point)}"
                     android:textSize="@{mVM.setTextSize(mVM.user.point)}" />
-
             </LinearLayout>
 
             <ImageButton
