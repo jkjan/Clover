@@ -1,6 +1,5 @@
 package com.jun.clover.viewmodel
 
-import android.util.Log
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.LiveData
@@ -8,34 +7,28 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jun.clover.R
 import com.jun.clover.adapter.MenuButtonsAdapter
+import com.jun.clover.dto.CloverHistory
 import com.jun.clover.dto.User
-import com.jun.clover.repository.MainRepository
+import com.jun.clover.repository.CloverHistoryRepository
+import com.jun.clover.repository.CloverValidRepository
+import com.jun.clover.repository.UserRepository
 import kotlin.math.log10
 
-class MainViewModel(private val mRepo : MainRepository) : ViewModel() {
-    private val _total = MutableLiveData<Int>()
-    private val _now = MutableLiveData<Int>()
-    private val _tickle = MutableLiveData<Boolean>()
+class MainViewModel(private val userRepository : UserRepository,
+                    private val cloverValidRepository: CloverValidRepository,
+                    private val cloverHistoryRepository: CloverHistoryRepository) : ViewModel() {
+
+    private val _user = MutableLiveData<User>()
+    private val _today = MutableLiveData<CloverHistory>()
     lateinit var mAdapter : MenuButtonsAdapter
 
-    private val _users = MutableLiveData<ArrayList<User>>()
-    val users : LiveData<ArrayList<User>> get() = _users
-
-    val usertest = MutableLiveData<String>()
-    val total : LiveData<Int> get() = _total
-    val now : LiveData<Int> get() = _now
-    val tickle : LiveData<Boolean> get() = _tickle
+    val user : LiveData<User> get() = _user
+    val today : LiveData<CloverHistory> get() = _today
 
     fun init() {
-        _tickle.value = false
         this.mAdapter = MenuButtonsAdapter(R.layout.item_menu, this)
-        this._total.value = 0
-        this._now.value = 0
-        mRepo.getUserList(this.usertest)
-    }
-
-    fun tickled() {
-        _tickle.value = !(_tickle.value!!)
+        cloverHistoryRepository.getTodayClover(_today)
+        userRepository.getUser("test", _user)
     }
 
     fun drawerControl(drawer : DrawerLayout) {
@@ -53,29 +46,7 @@ class MainViewModel(private val mRepo : MainRepository) : ViewModel() {
             170f - len.toFloat() * 10f
     }
 
-    fun setTotal() {
-        this._total.value = mRepo.getTotal()
-    }
-
-    fun setNow() {
-        this._now.value = mRepo.getNow()
-    }
-
-    fun getTotalCollected() = this._total.value!!.toString() + " p"
-
-    fun getNowCollected() = this._now.value!!.toString() + " p"
-
-    private fun getUserList() {
-        if (this.users.value == null) {
-            return
-        }
-        var text = ""
-        for (i in this.users.value!!.indices) {
-            text = this.users.value!![i].id +
-                    " " + this.users.value!![i].name +
-                    " " + this.users.value!![i].connApp + "\n"
-        }
-        this.usertest.postValue(text)
-        Log.e("huh?", this.usertest.value!!)
+    fun purchaseClover() {
+        cloverValidRepository.purchaseClover(this._user.value!!.id)
     }
 }

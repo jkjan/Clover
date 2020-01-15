@@ -1,11 +1,14 @@
 package com.jun.clover.dependency
 
-import com.jun.clover.server.UserApi
-import com.jun.clover.repository.AdRepository
-import com.jun.clover.repository.MainRepository
+import com.jun.clover.api.CloverHistoryApi
+import com.jun.clover.api.CloverValidApi
+import com.jun.clover.api.UserApi
 import com.jun.clover.lockscreen.LockScreenReceiver
 import com.jun.clover.lockscreen.LockScreenService
 import com.jun.clover.lockscreen.RestartReceiver
+import com.jun.clover.repository.AdRepository
+import com.jun.clover.repository.CloverHistoryRepository
+import com.jun.clover.repository.CloverValidRepository
 import com.jun.clover.repository.UserRepository
 import com.jun.clover.viewmodel.LockScreenViewModel
 import com.jun.clover.viewmodel.MainViewModel
@@ -15,14 +18,25 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
+fun getRetrofit() : Retrofit{
+    return Retrofit.Builder()
+        .baseUrl("http://61.102.151.132:8080")
+        .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+}
+
 val appModule = module {
     single {
-        Retrofit.Builder()
-            .baseUrl("http://61.102.151.132:8080")
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(UserApi::class.java)
+        getRetrofit().create(UserApi::class.java)
+    }
+
+    single {
+        getRetrofit().create(CloverHistoryApi::class.java)
+    }
+
+    single {
+        getRetrofit().create(CloverValidApi::class.java)
     }
 
     single {
@@ -38,15 +52,11 @@ val appModule = module {
     }
 
     viewModel {
-        MainViewModel(get())
+        MainViewModel(get(), get(), get())
     }
 
     viewModel {
         LockScreenViewModel(get())
-    }
-
-    factory {
-        MainRepository(get())
     }
 
     factory {
@@ -55,5 +65,13 @@ val appModule = module {
 
     factory {
         UserRepository(get())
+    }
+
+    factory {
+        CloverValidRepository(get())
+    }
+
+    factory {
+        CloverHistoryRepository(get())
     }
 }
