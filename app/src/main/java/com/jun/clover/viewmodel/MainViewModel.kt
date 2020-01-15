@@ -28,7 +28,7 @@ class MainViewModel(private val userRepository : UserRepository,
     fun init() {
         this.mAdapter = MenuButtonsAdapter(R.layout.item_menu, this)
         cloverHistoryRepository.getTodayClover(_today)
-        userRepository.getUser("test", _user)
+        userRepository.getUser("android", _user)
     }
 
     fun drawerControl(drawer : DrawerLayout) {

@@ -11,8 +11,6 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.jun.clover.R
 import com.jun.clover.activity.MainActivity
-import org.koin.core.logger.KOIN_TAG
-import retrofit2.http.Body
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
@@ -32,9 +30,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             putExtra("Notification", body)
         }
 
-        var pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         val notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        var notificationBuilder = NotificationCompat.Builder(this, "Notification")
+        val notificationBuilder = NotificationCompat.Builder(this, "Notification")
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle("Push Notification FCM")
             .setContentText(body)
@@ -42,7 +40,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setSound(notificationSound)
             .setContentIntent(pendingIntent)
 
-        var notificationManager : NotificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager : NotificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(0, notificationBuilder.build())
     }
 }
