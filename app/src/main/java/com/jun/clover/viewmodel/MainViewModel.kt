@@ -1,5 +1,6 @@
 package com.jun.clover.viewmodel
 
+import android.util.Log
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.LiveData
@@ -27,8 +28,13 @@ class MainViewModel(private val userRepository : UserRepository,
 
     fun init() {
         this.mAdapter = MenuButtonsAdapter(R.layout.item_menu, this)
-        cloverHistoryRepository.getTodayClover(_today)
+        getTodayClover()
         userRepository.getUser("android", _user)
+    }
+
+    fun getTodayClover() {
+        cloverHistoryRepository.getTodayClover(_today)
+        Log.d("mvm trigger", "works")
     }
 
     fun drawerControl(drawer : DrawerLayout) {

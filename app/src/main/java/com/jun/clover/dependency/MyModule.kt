@@ -3,6 +3,8 @@ package com.jun.clover.dependency
 import com.jun.clover.api.CloverHistoryApi
 import com.jun.clover.api.CloverValidApi
 import com.jun.clover.api.UserApi
+import com.jun.clover.firebase.MyFirebaseMessagingReceiver
+import com.jun.clover.firebase.MyFirebaseMessagingService
 import com.jun.clover.lockscreen.LockScreenReceiver
 import com.jun.clover.lockscreen.LockScreenService
 import com.jun.clover.lockscreen.RestartReceiver
@@ -49,6 +51,14 @@ val appModule = module {
 
     single {
         LockScreenService()
+    }
+
+    single {
+        MyFirebaseMessagingService()
+    }
+
+    single {
+        MyFirebaseMessagingReceiver(get())
     }
 
     viewModel {

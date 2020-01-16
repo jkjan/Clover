@@ -36,5 +36,12 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+
+        <receiver android:name="com.jun.clover.firebase.MyFirebaseMessagingReceiver" >
+            <intent-filter>
+                <action android:name="com.jun.clover.SEND_FIREBASE"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 </manifest>

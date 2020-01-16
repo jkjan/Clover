@@ -1,23 +1,32 @@
 package com.jun.clover.activity
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.jun.clover.R
-import com.jun.clover.viewmodel.MainViewModel
 import com.jun.clover.databinding.ActivityMainBinding
+import com.jun.clover.firebase.MyFirebaseMessagingService
 import com.jun.clover.lockscreen.LockScreenService
-import com.jun.clover.api.UserApi
-import org.koin.android.ext.android.inject
+import com.jun.clover.viewmodel.MainViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
+
 
 class MainActivity : BaseActivity() {
     private val mMainViewModel : MainViewModel by viewModel()
+
+    val myReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Log.e("do", "something")
+            mMainViewModel.getTodayClover()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,5 +48,12 @@ class MainActivity : BaseActivity() {
             })
 
         FirebaseMessaging.getInstance().isAutoInitEnabled = true
+
+        registerReceiver(myReceiver, IntentFilter("INTENT_FILTER"))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(myReceiver)
     }
 }
