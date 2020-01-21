@@ -25,6 +25,7 @@ class MainActivity : BaseActivity() {
         override fun onReceive(context: Context?, intent: Intent?) {
             Log.e("do", "something")
             mMainViewModel.getTodayClover()
+            mMainViewModel.getUser()
         }
     }
 
