@@ -22,7 +22,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 fun getRetrofit() : Retrofit{
     return Retrofit.Builder()
-        .baseUrl("http://61.102.151.132:8080")
+        .baseUrl("http://211.184.108.31:8080")
         .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .build()

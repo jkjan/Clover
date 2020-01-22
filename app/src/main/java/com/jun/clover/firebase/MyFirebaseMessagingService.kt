@@ -18,11 +18,7 @@ import com.jun.clover.activity.MainActivity
 import com.jun.clover.viewmodel.MainViewModel
 import org.koin.android.ext.android.inject
 
-class MyFirebaseMessagingService () : FirebaseMessagingService() {
-    private val myFirebaseMessagingReceiver : MyFirebaseMessagingReceiver by inject()
-    private val mainViewModel : MainViewModel by inject()
-
-
+class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         Log.e("new firebase token", "Refreshed token : $token")
     }
@@ -30,32 +26,32 @@ class MyFirebaseMessagingService () : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         if (remoteMessage.notification != null) {
             Log.e("firebase message", "Notification Message : ${remoteMessage.notification?.body}")
-            sendNotification(remoteMessage.notification?.body)
+            //sendNotification(remoteMessage.notification?.body)
             Log.e("mvm trigger", "send a message")
             //val intent = Intent("com.jun.clover.SEND_FIREBASE")
             //registerReceiver(myFirebaseMessagingReceiver, intentFilter)
-            sendBroadcast(Intent("INTENT_FILTER"))
+            //sendBroadcast(Intent("INTENT_FILTER"))
 //            mainViewModel.getTodayClover()
         }
     }
-
-    private fun sendNotification(body: String?) {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            putExtra("Notification", body)
-        }
-
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
-        val notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val notificationBuilder = NotificationCompat.Builder(this, "Notification")
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle("Push Notification FCM")
-            .setContentText(body)
-            .setAutoCancel(true)
-            .setSound(notificationSound)
-            .setContentIntent(pendingIntent)
-
-        val notificationManager : NotificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(0, notificationBuilder.build())
-    }
+//
+//    private fun sendNotification(body: String?) {
+//        val intent = Intent(this, MainActivity::class.java).apply {
+//            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+//            putExtra("Notification", body)
+//        }
+//
+//        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+//        val notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+//        val notificationBuilder = NotificationCompat.Builder(this, "Notification")
+//            .setSmallIcon(R.mipmap.ic_launcher)
+//            .setContentTitle("Push Notification FCM")
+//            .setContentText(body)
+//            .setAutoCancel(true)
+//            .setSound(notificationSound)
+//            .setContentIntent(pendingIntent)
+//
+//        val notificationManager : NotificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//        //notificationManager.notify(0, notificationBuilder.build())
+//    }
 }
