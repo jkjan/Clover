@@ -1,18 +1,16 @@
-package com.jun.clover.activity
+package com.jun.clover.lockscreen
 
 import android.app.KeyguardManager
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import com.jun.clover.R
+import com.jun.clover.BaseActivity
 import com.jun.clover.databinding.ActivityLockScreenBinding
-import com.jun.clover.databinding.ActivityMainBinding
-import com.jun.clover.viewmodel.LockScreenViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class LockScreenActivity : AppCompatActivity() {
+class LockScreenActivity : BaseActivity() {
     private val mLockScreenViewModel : LockScreenViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package com.jun.clover.activity
+package com.jun.clover
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

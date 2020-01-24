@@ -2,10 +2,10 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <import type="com.jun.clover.viewmodel.LockScreenViewModel"/>
+        <import type="com.jun.clover.lockscreen.LockScreenViewModel"/>
         <variable
             name="lsVM"
-            type="LockScreenViewModel"/>
+            type="com.jun.clover.lockscreen.LockScreenViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

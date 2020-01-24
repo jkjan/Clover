@@ -12,8 +12,9 @@ import com.jun.clover.repository.AdRepository
 import com.jun.clover.repository.CloverHistoryRepository
 import com.jun.clover.repository.CloverValidRepository
 import com.jun.clover.repository.UserRepository
-import com.jun.clover.viewmodel.LockScreenViewModel
-import com.jun.clover.viewmodel.MainViewModel
+import com.jun.clover.lockscreen.LockScreenViewModel
+import com.jun.clover.login.LoginViewModel
+import com.jun.clover.main.MainViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -58,7 +59,7 @@ val appModule = module {
     }
 
     single {
-        MyFirebaseMessagingReceiver(get())
+        MyFirebaseMessagingReceiver()
     }
 
     viewModel {
@@ -67,6 +68,10 @@ val appModule = module {
 
     viewModel {
         LockScreenViewModel(get())
+    }
+
+    viewModel {
+        LoginViewModel(get())
     }
 
     factory {

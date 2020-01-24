@@ -6,9 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
-import com.jun.clover.activity.LockScreenActivity
-import com.jun.clover.viewmodel.MainViewModel
-import org.koin.java.KoinJavaComponent.inject
 
 class LockScreenReceiver : BroadcastReceiver(){
     private var tM : TelephonyManager? = null

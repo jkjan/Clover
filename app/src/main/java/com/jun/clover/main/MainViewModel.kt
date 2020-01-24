@@ -1,4 +1,4 @@
-package com.jun.clover.viewmodel
+package com.jun.clover.main
 
 import android.util.Log
 import androidx.core.view.GravityCompat
@@ -8,7 +8,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jun.clover.R
 import com.jun.clover.adapter.MenuButtonsAdapter
+import com.jun.clover.adapter.PurchasedCloverAdapter
 import com.jun.clover.dto.CloverHistory
+import com.jun.clover.dto.CloverValid
 import com.jun.clover.dto.User
 import com.jun.clover.repository.CloverHistoryRepository
 import com.jun.clover.repository.CloverValidRepository
@@ -22,23 +24,38 @@ class MainViewModel(private val userRepository : UserRepository,
     private val _user = MutableLiveData<User>()
     private val _today = MutableLiveData<CloverHistory>()
     lateinit var mAdapter : MenuButtonsAdapter
+    lateinit var mPurchasedCloverAdapter : PurchasedCloverAdapter
+    lateinit var _purchasedClover : MutableLiveData<ArrayList<CloverValid>>
+    var purchasedClover : LiveData<ArrayList<CloverValid>>? = null
 
     val user : LiveData<User> get() = _user
     val today : LiveData<CloverHistory> get() = _today
 
-    fun init() {
+    fun init(user : User) {
         this.mAdapter = MenuButtonsAdapter(R.layout.item_menu, this)
+        this.mPurchasedCloverAdapter = PurchasedCloverAdapter(R.layout.item_purchsed_clover, this)
+        _user.value = user
         getTodayClover()
-        getUser()
     }
 
-    fun getTodayClover() {
+    private fun getTodayClover() {
         cloverHistoryRepository.getTodayClover(_today)
         Log.d("mvm trigger", "works")
     }
 
-    fun getUser() {
-        userRepository.getUser("android", _user)
+    fun getPurchasedClover() {
+        _purchasedClover = MutableLiveData()
+        purchasedClover = _purchasedClover
+        cloverValidRepository.getPurchasedClover(_user.value!!.id, _purchasedClover, mPurchasedCloverAdapter)
+    }
+
+    fun getUser(id : String) {
+        userRepository.getUser(id, _user)
+    }
+
+    fun updateUI() {
+        userRepository.getPoint(user.value!!.id, _user)
+        cloverHistoryRepository.getTodayPrize(_today)
     }
 
     fun drawerControl(drawer : DrawerLayout) {
@@ -57,6 +74,12 @@ class MainViewModel(private val userRepository : UserRepository,
     }
 
     fun purchaseClover() {
-        cloverValidRepository.purchaseClover(this._user.value!!.id)
+        cloverValidRepository.purchaseClover(_user.value!!.id)
+    }
+
+    fun getCloverNumText(position : Int) : String = purchasedClover!!.value!![position].cloverNum.toString()
+
+    fun getTimeText(position: Int) : String {
+        return purchasedClover!!.value!![position].time.substring(11)
     }
 }

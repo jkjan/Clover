@@ -1,5 +1,6 @@
 package com.jun.clover.dto
 
 data class CloverValid (
-    val id : String
+    val cloverNum : Int,
+    val time : String
 )

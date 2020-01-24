@@ -6,42 +6,66 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.jun.clover.dependency.MyApplication"
+        android:name=".dependency.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <receiver
-            android:name="com.jun.clover.lockscreen.RestartReceiver"
-            android:enabled="true"
-            android:exported="true"></receiver>
-
-        <activity android:name="com.jun.clover.activity.LockScreenActivity" />
-        <activity android:name="com.jun.clover.activity.BaseActivity" />
-        <activity android:name="com.jun.clover.activity.MainActivity">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
-        <service android:name="com.jun.clover.lockscreen.LockScreenService" />
-        <receiver android:name="com.jun.clover.lockscreen.LockScreenReceiver" />
-        <service android:name="com.jun.clover.firebase.MyFirebaseMessagingService">
+        <receiver
+            android:name=".lockscreen.RestartReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".lockscreen.LockScreenActivity" />
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".main.MainActivity">
+
+        </activity>
+
+        <service android:name=".lockscreen.LockScreenService" />
+
+        <receiver android:name=".lockscreen.LockScreenReceiver" />
+
+        <service android:name=".firebase.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <receiver android:name="com.jun.clover.firebase.MyFirebaseMessagingReceiver" >
+        <receiver android:name=".firebase.MyFirebaseMessagingReceiver">
             <intent-filter>
-                <action android:name="com.jun.clover.SEND_FIREBASE"/>
+                <action android:name="com.jun.clover.SEND_FIREBASE" />
             </intent-filter>
         </receiver>
 
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+
+        <activity android:name="com.facebook.CustomTabActivity" android:exported="true">
+            <intent-filter> <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+
+
     </application>
+
 </manifest>

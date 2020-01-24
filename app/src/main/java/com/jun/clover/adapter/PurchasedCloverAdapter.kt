@@ -6,28 +6,17 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jun.clover.databinding.ItemMenuBinding
+import com.jun.clover.databinding.ItemPurchsedCloverBinding
 import com.jun.clover.main.MainViewModel
 
-class MenuButtonsAdapter (@LayoutRes val layoutID : Int, private val mMainViewModel: MainViewModel) : RecyclerView.Adapter<MenuButtonsAdapter.Holder>() {
-    val menuList = arrayListOf(
-        "회원정보",
-        "설정",
-        "친구초대",
-        "공지사항",
-        "FAQ",
-        "서비스 이용약관",
-        "개인정보 처리방침",
-        "회사소개 및 제휴문의",
-        "서비스 사용 방법")
-
+class PurchasedCloverAdapter (@LayoutRes val layoutID : Int, private val mMainViewModel: MainViewModel): RecyclerView.Adapter<PurchasedCloverAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding =
-            DataBindingUtil.inflate<ItemMenuBinding>(layoutInflater, viewType, parent, false)
+        val binding = DataBindingUtil.inflate<ItemPurchsedCloverBinding>(layoutInflater, viewType, parent, false)
         return Holder(binding)
     }
 
-    override fun getItemCount() : Int = menuList.size
+    override fun getItemCount() : Int = if (mMainViewModel.purchasedClover == null) 0 else mMainViewModel.purchasedClover!!.value!!.size
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(mMainViewModel, position)
@@ -37,7 +26,7 @@ class MenuButtonsAdapter (@LayoutRes val layoutID : Int, private val mMainViewMo
 
     private fun getLayoutIdForPosition(): Int = layoutID
 
-    inner class Holder(private val binding: ItemMenuBinding) :
+    inner class Holder(private val binding: ItemPurchsedCloverBinding) :
         RecyclerView.ViewHolder(binding.itemView) {
         fun bind(mMainViewModel: MainViewModel, position: Int) {
             binding.mavm = mMainViewModel

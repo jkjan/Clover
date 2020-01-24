@@ -24,4 +24,22 @@ class CloverHistoryRepository (private var cloverHistoryApi: CloverHistoryApi) {
             }
         })
     }
+
+    fun getTodayPrize(cloverHistory: MutableLiveData<CloverHistory>) {
+        cloverHistoryApi.getTodayPrize().enqueue(object : Callback<Int> {
+            override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                if (response.body() != null) {
+                    Log.e("today prize ok", response.body().toString())
+                    val temp = cloverHistory.value!!
+                    temp.prizeClover = response.body()!!
+                    cloverHistory.postValue(temp)
+                }
+            }
+
+            override fun onFailure(call: Call<Int>, t: Throwable) {
+                if (t.message != null)
+                    Log.e("today prize fail", t.message!!)
+            }
+        })
+    }
 }

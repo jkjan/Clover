@@ -7,4 +7,7 @@ import retrofit2.http.GET
 interface CloverHistoryApi {
     @GET("/history/today")
     fun getTodayClover() : Call<CloverHistory>
+
+    @GET("/history/today/prize")
+    fun getTodayPrize() : Call<Int>
 }

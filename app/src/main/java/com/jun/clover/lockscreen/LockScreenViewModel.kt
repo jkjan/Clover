@@ -1,4 +1,4 @@
-package com.jun.clover.viewmodel
+package com.jun.clover.lockscreen
 
 import androidx.lifecycle.ViewModel
 import com.jun.clover.repository.AdRepository

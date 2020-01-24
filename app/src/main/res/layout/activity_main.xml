@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <import type="com.jun.clover.viewmodel.MainViewModel" />
+
+        <import type="com.jun.clover.main.MainViewModel" />
+
         <variable
             name="mVM"
-            type="MainViewModel"/>
+            type="com.jun.clover.main.MainViewModel" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -16,6 +19,32 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/bottom_sheet"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:background="#FFFFFF"
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="16dp"
+                    app:behavior_hideable="false"
+                    app:behavior_peekHeight="72dp"
+                    app:layout_behavior="@string/bottom_sheet_behavior">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:setPurchasedCloverAdapter="@{mVM.mPurchasedCloverAdapter}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
             <LinearLayout
                 android:layout_width="300dp"
@@ -31,6 +60,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{Integer.toString(mVM.today.prizeClover)}"
                     android:textSize="@{mVM.setTextSize(mVM.user.point)}" />
+
                 <View
                     android:layout_width="3dp"
                     android:layout_height="wrap_content"
@@ -48,35 +78,34 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="16dp"
-                android:src="@drawable/ic_menu_sidebar"
-                android:scaleType="fitCenter"
                 android:background="?android:attr/selectableItemBackground"
-                android:onClick="@{()->mVM.drawerControl(drawer)}" />
+                android:onClick="@{()->mVM.drawerControl(drawer)}"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_menu_sidebar" />
 
             <ImageButton
                 android:id="@+id/bt_purchase"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
+                android:layout_centerInParent="true"
+                android:background="@color/invisible"
                 android:onClick="@{()->mVM.purchaseClover()}"
                 android:scaleType="fitCenter"
-                android:background="@color/invisible"
-                android:src="@drawable/ic_purchase"
-                android:layout_centerInParent="true" />
-
+                android:src="@drawable/ic_purchase" />
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:orientation="vertical"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:setVAdapter="@{mVM.mAdapter}"/>
+                android:setVAdapter="@{mVM.mAdapter}" />
         </LinearLayout>
 
     </androidx.drawerlayout.widget.DrawerLayout>
