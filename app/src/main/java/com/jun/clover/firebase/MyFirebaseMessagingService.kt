@@ -15,8 +15,6 @@ import com.jun.clover.main.MainActivity
 import org.koin.android.ext.android.inject
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
-    private val myFirebaseMessagingReceiver : MyFirebaseMessagingReceiver by inject()
-
     override fun onNewToken(token: String) {
         Log.e("new firebase token", "Refreshed token : $token")
     }
@@ -26,11 +24,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             Log.e("firebase message", "Notification Message : ${remoteMessage.notification?.body}")
             sendNotification(remoteMessage.notification?.body)
             Log.e("mvm trigger", "send a message")
-            //registerReceiver(myFirebaseMessagingReceiver, IntentFilter("com.jun.clover.SEND_FIREBASE"))
             sendBroadcast(Intent("com.jun.clover.SEND_FIREBASE"))
         }
     }
-//
+
     private fun sendNotification(body: String?) {
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -50,9 +47,4 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val notificationManager : NotificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(0, notificationBuilder.build())
     }
-//
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        unregisterReceiver(myFirebaseMessagingReceiver)
-//    }
 }

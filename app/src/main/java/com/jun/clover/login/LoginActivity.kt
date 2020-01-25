@@ -109,7 +109,7 @@ class LoginActivity : BaseActivity() {
             }
 
             override fun onError(error: FacebookException?) {
-
+                toast("잘못된 계정입니다.")
             }
 
             override fun onCancel() {

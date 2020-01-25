@@ -18,7 +18,7 @@ class LockScreenService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        val filter = IntentFilter(Intent.ACTION_SCREEN_OFF)
+        val filter = IntentFilter(Intent.ACTION_SCREEN_ON)
         registerReceiver(lsReceiver, filter)
         registerRestartAlarm(true)
     }

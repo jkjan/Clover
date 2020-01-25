@@ -12,7 +12,7 @@ class LockScreenReceiver : BroadcastReceiver(){
     private var isPhoneIdle = true
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (intent?.action.equals(Intent.ACTION_SCREEN_OFF)) {
+        if (intent?.action.equals(Intent.ACTION_SCREEN_ON)) {
 
             if (tM == null) {
                 tM = context?.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
