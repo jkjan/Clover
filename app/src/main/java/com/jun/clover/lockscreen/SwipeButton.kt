@@ -15,17 +15,28 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.animation.ObjectAnimator
+import android.app.Activity
+import android.content.ContextWrapper
 import android.graphics.Color
+import android.util.Log
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.jun.clover.R
+import androidx.core.content.ContextCompat.getSystemService
+import android.view.LayoutInflater
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import androidx.core.content.ContextCompat.startActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
+import com.jun.clover.databinding.ActivityLockScreenBinding
 
 class SwipeButton(context: Context) : RelativeLayout(context) {
+    lateinit var mLockScreenViewModel : LockScreenViewModel
     private var slidingButton: ImageView? = null
-    private var initialX: Float = 0.toFloat()
+    private var initialX: Float = 0f
     private var active: Boolean = false
     private var initialButtonWidth: Int = 0
     private var centerText: TextView? = null
-
+    lateinit var binding : ActivityLockScreenBinding
     private var disabledDrawable: Drawable? = null
     private var enabledDrawable: Drawable? = null
 
@@ -43,6 +54,17 @@ class SwipeButton(context: Context) : RelativeLayout(context) {
 
     private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {
         val background = RelativeLayout(context)
+//
+//        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+//        binding = ActivityLockScreenBinding.inflate(inflater)
+
+        //binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.activity_lock_screen, this, false)
+        //binding = ActivityLockScreenBinding.inflate(LayoutInflater.from(context), this, true)
+        //binding.lifecycleOwner = getLifeCycleOwner(this)
+//        getLifeCycleOwner(this)?.let{
+//            binding.lifecycleOwner = it
+//        }
+
 
         val layoutParamsView = LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -73,6 +95,8 @@ class SwipeButton(context: Context) : RelativeLayout(context) {
 
         this.slidingButton = swipeButton
 
+        this.initialX = ((width - slidingButton!!.width)/2).toFloat()
+
         disabledDrawable =
             ContextCompat.getDrawable(getContext(), R.drawable.ic_lock_black_24dp)
         enabledDrawable =
@@ -86,15 +110,13 @@ class SwipeButton(context: Context) : RelativeLayout(context) {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
-        layoutParamsButton.addRule(ALIGN_PARENT_LEFT, TRUE)
+        layoutParamsButton.addRule(CENTER_IN_PARENT, TRUE)
         layoutParamsButton.addRule(CENTER_VERTICAL, TRUE)
         swipeButton.background = ContextCompat.getDrawable(context, R.drawable.shape_button)
         swipeButton.setImageDrawable(disabledDrawable)
         addView(swipeButton, layoutParamsButton)
 
         setOnTouchListener(getButtonTouchListener())
-
-
     }
 
     private fun getButtonTouchListener(): OnTouchListener {
@@ -104,36 +126,64 @@ class SwipeButton(context: Context) : RelativeLayout(context) {
                     MotionEvent.ACTION_DOWN -> return true
                     MotionEvent.ACTION_MOVE -> {
                         //Movement logic here
-                        if (initialX == 0f) {
+                        // 가운데 고정
+                        if (initialX == (width/2).toFloat()) {
                             initialX = slidingButton!!.x
                         }
+
+                        // 왼쪽->오른쪽 슬라이드
                         if (event.x > initialX + slidingButton!!.width / 2 &&
                             event.x + slidingButton!!.width / 2 < width) {
                             slidingButton!!.x = event.x - slidingButton!!.width / 2
                             centerText!!.alpha = 1 - 1.3f * (slidingButton!!.x + slidingButton!!.width) / width
                         }
 
+                        // 왼쪽<-오른쪽 슬라이드
+                        if (event.x < initialX + slidingButton!!.width / 2 &&
+                            event.x + slidingButton!!.width / 2 < width) {
+                            slidingButton!!.x = event.x - slidingButton!!.width / 2
+                            centerText!!.alpha = 1 - 1.3f * (slidingButton!!.x + slidingButton!!.width) / width
+                        }
+
+                        // 버튼이 오른쪽으로 넘어가는 것 방지
                         if  (event.x + slidingButton!!.width / 2 > width &&
                             slidingButton!!.x + slidingButton!!.width / 2 < width) {
+                            Log.d("slidingButton", "over right")
                             slidingButton!!.x = (width - slidingButton!!.width).toFloat()
                         }
 
-                        if  (event.x < slidingButton!!.width / 2 &&
-                            slidingButton!!.x > 0) {
+                        // 버튼이 왼쪽으로 넘어가는 것 방지
+                        if (event.x + slidingButton!!.width / 2 < slidingButton!!.width &&
+                            slidingButton!!.x + slidingButton!!.width / 2 < width) {
+                            Log.d("slidingButton", "over left")
                             slidingButton!!.x = 0f
                         }
+
+                        if  (event.x < slidingButton!!.width / 2 &&
+                            slidingButton!!.x > width/2) {
+                            slidingButton!!.x = (width/2).toFloat()
+                        }
+
                         return true
                     }
+
                     MotionEvent.ACTION_UP -> {
-                        //Release logic here
+                        // 손가락 뗐을 때
                         if (active) {
                             collapseButton()
                         } else {
                             initialButtonWidth = slidingButton!!.width
 
-                            if (slidingButton!!.x + slidingButton!!.width > width * 0.85) {
-                                expandButton()
-                            } else {
+                            if (slidingButton!!.x > (width - slidingButton!!.width)*0.95 && slidingButton!!.x <= width) {
+                                mLockScreenViewModel!!.unlockScreen()
+                            }
+
+                            if (slidingButton!!.x < slidingButton!!.width * 1.05 && slidingButton!!.x >= 0) {
+                                mLockScreenViewModel!!.goToLink()
+                            }
+
+                            if (slidingButton!!.x + slidingButton!!.width < width ||
+                                    slidingButton!!.x + slidingButton!!.width > slidingButton!!.width) {
                                 moveButtonBack()
                             }
                         }
@@ -148,7 +198,7 @@ class SwipeButton(context: Context) : RelativeLayout(context) {
     }
 
     private fun expandButton() {
-        val positionAnimator = ValueAnimator.ofFloat(slidingButton!!.x, 0f)
+        val positionAnimator = ValueAnimator.ofFloat(slidingButton!!.x, this.initialX)
         positionAnimator.addUpdateListener {
             val x = positionAnimator.animatedValue as Float
             slidingButton!!.x = x
@@ -212,7 +262,8 @@ class SwipeButton(context: Context) : RelativeLayout(context) {
     }
 
     private fun moveButtonBack() {
-        val positionAnimator = ValueAnimator.ofFloat(slidingButton!!.x, 0F)
+        val positionAnimator = ValueAnimator.ofFloat(slidingButton!!.x, ((width - slidingButton!!.width)/2).toFloat())
+        Log.d("slidingButton", "${(width - slidingButton!!.width)/2}")
         positionAnimator.interpolator = AccelerateDecelerateInterpolator()
         positionAnimator.addUpdateListener {
             val x = positionAnimator.animatedValue as Float
@@ -228,5 +279,22 @@ class SwipeButton(context: Context) : RelativeLayout(context) {
         val animatorSet = AnimatorSet()
         animatorSet.playTogether(objectAnimator, positionAnimator)
         animatorSet.start()
+    }
+
+    fun setViewModel (lsVM : LockScreenViewModel) {
+        this.mLockScreenViewModel = lsVM
+    }
+
+    fun getLifeCycleOwner(view: View): LifecycleOwner? {
+        var context = view.context
+
+        while (context is ContextWrapper) {
+            if (context is LifecycleOwner) {
+                return context
+            }
+            context = context.baseContext
+        }
+
+        return null
     }
 }

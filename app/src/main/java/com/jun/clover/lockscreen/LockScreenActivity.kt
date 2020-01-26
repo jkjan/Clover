@@ -39,5 +39,6 @@ class LockScreenActivity : BaseActivity() {
         val binding = DataBindingUtil.setContentView<ActivityLockScreenBinding>(this, R.layout.activity_lock_screen)
         binding.lsVM = mLockScreenViewModel
         binding.lifecycleOwner = this
+        //binding.swipeBtn.setViewModel(mLockScreenViewModel)
     }
 }
