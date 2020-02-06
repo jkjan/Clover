@@ -1,7 +1,5 @@
 package com.jun.clover.main
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
@@ -18,7 +16,9 @@ import com.jun.clover.BaseActivity
 import com.jun.clover.databinding.ActivityMainBinding
 import com.jun.clover.dto.User
 import com.jun.clover.firebase.MyFirebaseMessagingReceiver
+import com.jun.clover.frdrcmd.FrdRecmdActivity
 import com.jun.clover.lockscreen.LockScreenService
+import com.jun.clover.userinfo.UserInfoActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -30,7 +30,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val user = intent.getParcelableExtra<User>("user")
+        val user = intent.getParcelableExtra<User?>("user")
         Log.d("user prcrsId", user!!.id)
         mMainViewModel.init(user)
 
@@ -65,6 +65,24 @@ class MainActivity : BaseActivity() {
             }
 
             override fun onSlide(p0: View, p1: Float) {
+            }
+        })
+
+        mMainViewModel.menu.observe(this, Observer {
+            when (it) {
+                1 -> {
+                    val intent = Intent(this, UserInfoActivity::class.java)
+                    intent.putExtra("user", mMainViewModel.user.value)
+                    Log.d("user?", mMainViewModel.user.value!!.id)
+                    startActivity(intent)
+                }
+
+                3 -> {
+                    val intent = Intent(this, FrdRecmdActivity::class.java)
+                    intent.putExtra("id", mMainViewModel.user.value!!.id)
+                    Log.d("user id?", mMainViewModel.user.value!!.id)
+                    startActivity(intent)
+                }
             }
         })
     }

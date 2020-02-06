@@ -23,18 +23,23 @@ class MainViewModel(private val userRepository : UserRepository,
 
     private val _user = MutableLiveData<User>()
     private val _today = MutableLiveData<CloverHistory>()
+    private lateinit var _purchasedClover : MutableLiveData<ArrayList<CloverValid>>
+
     lateinit var mAdapter : MenuButtonsAdapter
     lateinit var mPurchasedCloverAdapter : PurchasedCloverAdapter
-    lateinit var _purchasedClover : MutableLiveData<ArrayList<CloverValid>>
+
+    private val _menu = MutableLiveData<Int>()
     var purchasedClover : LiveData<ArrayList<CloverValid>>? = null
 
     val user : LiveData<User> get() = _user
     val today : LiveData<CloverHistory> get() = _today
+    val menu : LiveData<Int> get() = _menu
 
     fun init(user : User) {
         this.mAdapter = MenuButtonsAdapter(R.layout.item_menu, this)
         this.mPurchasedCloverAdapter = PurchasedCloverAdapter(R.layout.item_purchsed_clover, this)
-        _user.value = user
+        this._menu.value = 0
+        this._user.value = user
         getTodayClover()
     }
 
@@ -47,10 +52,6 @@ class MainViewModel(private val userRepository : UserRepository,
         _purchasedClover = MutableLiveData()
         purchasedClover = _purchasedClover
         cloverValidRepository.getPurchasedClover(_user.value!!.id, _purchasedClover, mPurchasedCloverAdapter)
-    }
-
-    fun getUser(id : String) {
-        userRepository.getUser(id, _user)
     }
 
     fun updateUI() {
@@ -81,5 +82,9 @@ class MainViewModel(private val userRepository : UserRepository,
 
     fun getTimeText(position: Int) : String {
         return purchasedClover!!.value!![position].time.substring(11)
+    }
+
+    fun goToMenu(position: Int) {
+        this._menu.value = position + 1
     }
 }

@@ -12,11 +12,15 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.jun.clover.R
 import com.jun.clover.main.MainActivity
+import com.jun.clover.repository.FirebaseTokenRepository
 import org.koin.android.ext.android.inject
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
+    private val mFirebaseTokenRepository : FirebaseTokenRepository by inject()
+
     override fun onNewToken(token: String) {
-        Log.e("new firebase token", "Refreshed token : $token")
+        Log.e("new firebase token", "Refreshed token : $token, Length : ${token.length}")
+        mFirebaseTokenRepository.addToken(token)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {

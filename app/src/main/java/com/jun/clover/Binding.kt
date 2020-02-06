@@ -22,9 +22,9 @@ fun RecyclerView.bindPurchasedCloverAdapter (adapter: RecyclerView.Adapter<Purch
     this.layoutManager = LinearLayoutManager(this.context)
     this.adapter = adapter
 }
-//
-//@BindingAdapter("android:lockscreen")
-//fun SwipeButton.bindLockScreenViewModel (vm : LockScreenViewModel) {
-//    Log.d("lockscreen bind", "okay")
-//    this.mLockScreenViewModel = vm
-//}
+
+@BindingAdapter("android:lockscreen")
+fun SwipeButton.bindLockScreenViewModel (vm : LockScreenViewModel) {
+    Log.d("lockscreen bind", "okay")
+    this.mLockScreenViewModel = vm
+}

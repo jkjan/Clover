@@ -79,4 +79,9 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 
     implementation 'com.google.android.material:material:1.0.0'
+
+    implementation group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation group: project.KAKAO_SDK_GROUP, name: 'kakaolink', version: project.KAKAO_SDK_VERSION
 }

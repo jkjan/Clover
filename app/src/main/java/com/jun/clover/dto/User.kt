@@ -5,25 +5,34 @@ import android.os.Parcelable
 
 data class User (
     val id : String,
-    val name : String,
+    var name : String,
+    var email : String,
+    var point : Int,
+    var bank : String?,
+    var acc : String?,
     val connApp : String,
-    val email : String,
-    var point : Int) : Parcelable {
+    var registerDate : String) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
+        parcel.readInt(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.readString()!!,
-        parcel.readInt()
+        parcel.readString()!!
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(name)
-        parcel.writeString(connApp)
         parcel.writeString(email)
         parcel.writeInt(point)
+        parcel.writeString(bank)
+        parcel.writeString(acc)
+        parcel.writeString(connApp)
+        parcel.writeString(registerDate)
     }
 
     override fun describeContents(): Int {

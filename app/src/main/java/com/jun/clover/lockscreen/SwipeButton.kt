@@ -40,6 +40,8 @@ class SwipeButton(context: Context) : RelativeLayout(context) {
     private var disabledDrawable: Drawable? = null
     private var enabledDrawable: Drawable? = null
 
+
+
     constructor(context: Context, attrs : AttributeSet) : this(context) {
         init(context, null, -1, -1)
     }
@@ -64,7 +66,6 @@ class SwipeButton(context: Context) : RelativeLayout(context) {
 //        getLifeCycleOwner(this)?.let{
 //            binding.lifecycleOwner = it
 //        }
-
 
         val layoutParamsView = LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -175,11 +176,11 @@ class SwipeButton(context: Context) : RelativeLayout(context) {
                             initialButtonWidth = slidingButton!!.width
 
                             if (slidingButton!!.x > (width - slidingButton!!.width)*0.95 && slidingButton!!.x <= width) {
-                                mLockScreenViewModel!!.unlockScreen()
+                              //  mLockScreenViewModel!!.unlockScreen()
                             }
 
                             if (slidingButton!!.x < slidingButton!!.width * 1.05 && slidingButton!!.x >= 0) {
-                                mLockScreenViewModel!!.goToLink()
+                                //mLockScreenViewModel!!.goToLink()
                             }
 
                             if (slidingButton!!.x + slidingButton!!.width < width ||
